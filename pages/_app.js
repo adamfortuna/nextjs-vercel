@@ -1,7 +1,7 @@
-import '../styles/globals.css'
+import './globals.css'
 import App, { Container } from 'next/app'
 import React from 'react'
-import withApolloClient from '../lib/with-apollo-client'
+import withApolloClient from '@lib/with-apollo-client'
 import { ApolloProvider } from '@apollo/client'
 import { UserProvider } from '@auth0/nextjs-auth0'
 

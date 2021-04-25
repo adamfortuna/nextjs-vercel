@@ -14,16 +14,21 @@
     "@headlessui/react": "^1.0.0",
     "@heroicons/react": "^1.0.1",
     "@tailwindcss/forms": "^0.3.2",
+    "@xstate/react": "^1.3.2",
     "apollo-boost": "^0.4.9",
     "graphql": "^15.5.0",
     "isomorphic-unfetch": "^3.1.0",
     "next": "10.x",
     "react": "17.x",
-    "react-dom": "17.x"
+    "react-dom": "17.x",
+    "xstate": "^4.18.0"
   },
   "devDependencies": {
+    "@types/node": "^14.14.41",
+    "@types/react": "^17.0.3",
     "autoprefixer": "^10.2.5",
     "postcss": "^8.2.12",
-    "tailwindcss": "^2.1.2"
+    "tailwindcss": "^2.1.2",
+    "typescript": "^4.2.4"
   }
 }

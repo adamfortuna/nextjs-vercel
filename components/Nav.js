@@ -1,16 +1,22 @@
 import { Menu, Transition } from "@headlessui/react";
+// import { render } from "@headlessui/react/dist/utils/render";
 import Link from './Link'
+import { Machine, assign } from "xstate";
+import { useMachine } from "@xstate/react";
+import { createMachine } from 'xstate';
+
+const navMachine = createMachine({
+  id: 'navMachine',
+  initial: 'closed',
+  states: {
+    closed: { on: { TOGGLE_MOBILE_NAV: 'open' } },
+    open: { on: { TOGGLE_MOBILE_NAV: 'closed' } }
+  }
+});
 
 export default function Nav(){
-  let state = {
-    isMobileNavExpanded: false
-  }
+  const [current, send] = useMachine(navMachine)
 
-  const toggleMobileNav = (e) => {
-    e.preventDefault()
-    console.log('state', state)
-    state.isMobileNavExpanded = !state.isMobileNavExpanded
-  }
 
   const userMenu = (
     <div className="ml-4 relative flex-shrink-0">
@@ -54,7 +60,8 @@ export default function Nav(){
       </Menu>
     </div>
   )
-
+  
+  
   return (
     <nav className="bg-gray-800">
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
@@ -64,7 +71,7 @@ export default function Nav(){
               <Link href="/">
                 <a href="#" className="flex flex-row items-center rounded hover:bg-indigo-700 p-2">
                   <svg className="h-8 w-auto text-indigo-500" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M575.11 443.25L461.51 19.06C458.2 6.7 445.61-3.18 430.15.96L414.7 5.1c-6.18 1.66-11.53 6.4-16.06 14.24-14.03 6.94-52.3 17.21-68 18.22-7.84-4.53-14.85-5.96-21.03-4.3l-15.46 4.14c-2.42.65-4.2 1.95-6.15 3.08V32c0-17.67-14.33-32-32-32h-64c-17.67 0-32 14.33-32 32v64h128l101.66 396.94c3.31 12.36 15.9 22.24 31.36 18.1l15.45-4.14c6.18-1.66 11.53-6.4 16.06-14.24 13.91-6.88 52.18-17.2 68-18.22 7.84 4.53 14.85 5.96 21.03 4.3l15.46-4.14c15.45-4.14 21.41-18.99 18.09-31.35zm-134.4-7.06L348.64 92.37l61.82-16.56 92.07 343.82-61.82 16.56zM0 384h128V128H0v256zM96 0H32C14.33 0 0 14.33 0 32v64h128V32c0-17.67-14.33-32-32-32zM0 480c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64H0v64zm160-96h128V128H160v256zm0 96c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64H160v64z"></path></svg>
-                  <span className="font-bold text-xl ml-2 hidden lg:block">Untitled Book Site</span>
+                  <span className="font-bold text-xl ml-2 hidden lg:block">Untitled Book Site - {current.context.navOpen}</span>
                 </a>
               </Link>
             </div>
@@ -96,12 +103,12 @@ export default function Nav(){
             </div>
           </div>
           <div className="flex lg:hidden">
-            <button type="button" className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded={ `state.isMobileNavExpanded ? 'true' : 'false'` } onClick={toggleMobileNav}>
+            <button type="button" className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded={ current.matches('open') ? 'true' : 'false' } onClick={() => send('TOGGLE_MOBILE_NAV')}>
               <span className="sr-only">Open main menu</span>
-              <svg className={ `${state.isMobileNavExpanded ? 'hidden' : 'block'} h-6 w-6` } xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <svg className={ current.matches('open') ? ' h-6 w-6 hidden' : ' h-6 w-6 block'} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
-              <svg className={ `${state.isMobileNavExpanded ? 'block' : 'hidden'} h-6 w-6` } xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <svg className={ current.matches('open') ? 'h-6 w-6 block' : 'h-6 w-6 hidden'} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -114,14 +121,13 @@ export default function Nav(){
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
               </button>
-
               {userMenu}
             </div>
           </div>
         </div>
       </div>
 
-      <div className={ `lg:hidden ${state.isMobileNavExpanded ? 'block' : 'hidden'}`} id="mobile-menu">
+      <div className={ `lg:hidden ${current.matches('open') ? 'block' : 'hidden'}`} id="mobile-menu">
         <div className="px-2 pt-2 pb-3 space-y-1">
           <Link href="/activity" active="bg-gray-900 text-white" inactive="text-gray-300 hover:bg-gray-700 hover:text-white">
             <a className="block px-3 py-2 rounded-md text-base font-medium">Activity</a>

@@ -1,21 +1,30 @@
 import Head from 'next/head'
-import Nav from '../components/Nav'
+import Layout from '../components/Layout'
 import { useUser } from '@auth0/nextjs-auth0';
 
 
 export default function Home() {
   const { user, error, isLoading } = useUser();
   console.log('user', user)
+  let message
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
+  if (isLoading) {
+    message = <div>Loading...</div>
+  }
+  if (error) {
+    message = <div>{error.message}</div>
+  }
+  if (!user) {
+    message = <a href="/api/auth/login">Login</a>
+  }
+  else {
+    message = <a href="/api/auth/logout">Logout {user.name}</a>
+  }
 
   return (
-    <>
+    <Layout>
       <Head>
         <title>Home Page</title>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
       </Head>
 
       <main className="container mx-auto">
@@ -23,18 +32,8 @@ export default function Home() {
           This is an H1
         </h1>
 
-        <p>
-          This is a paragraph
-        </p>
-
-        <p>Loading: {isLoading}</p>
-        <p>Error: {error}</p>
-        <p>User: {user.name}</p>
-
-        <p>
-          <a href="/api/auth/login">Login</a>
-        </p>
+        {message}
       </main>
-    </>
+    </Layout>
   )
 }

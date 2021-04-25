@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import { gql, useQuery } from '@apollo/client';
+import Layout from '../../components/layout'
 
-const GET_BOOKS = gql`
+const query = gql`
 query GetBooks {
   books {
     id
@@ -10,25 +11,58 @@ query GetBooks {
 }
 `
 
+export default function Books() {
+  const { data, loading, error } = useQuery(query);
 
-export default function Home() {
-  const { loading, error, data } = useQuery(GET_BOOKS);
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
+
+  if (error) {
+    console.error(error);
+    return null;
+  }
+
+  const books = data.books || []
 
   return (
-    <>
-      <Head>
-        <title>Books</title>
-      </Head>
+    <Layout>
+      <p>This is the books page with {books.length} books.</p>
 
-      <main className="container mx-auto">
-        <h1>
-          Books
-        </h1>
+      {books.map((books) => (
+        <div key={book.id}>
+          <h3>{book.title}</h3>
+        </div>
+      ))}
 
-        <p>
-          This is a paragraph
-        </p>
-      </main>
-    </>
-  )
+    </Layout>
+  );
 }
+
+
+// export default function Books() {
+//   return (
+//     <Query
+//       query={ query }
+//       fetchPolicy={ 'cache-and-network' }
+//     >
+//       {({ loading, data, error }) => {
+//         if(error) {
+//           return (<div>Error..</div>);
+//         }
+//         return (
+//           <div>
+//             <h1>My Books </h1>
+//             <div>
+//               {(data ? data.author: []).map((book, i) => (
+//                 <div key={i}>
+//                   <h2>{book.title}</h2>
+//                 </div>
+//               ))}
+//             </div>
+//           </div>
+//         );
+//       }}
+//     </Query>
+//   );
+// }

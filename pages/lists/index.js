@@ -1,8 +1,9 @@
 import Head from 'next/head'
+import Layout from '../../components/layout'
 
-export default function Home() {
+export default function Lists() {
   return (
-    <>
+    <Layout>
       <Head>
         <title>Lists</title>
       </Head>
@@ -16,6 +17,6 @@ export default function Home() {
           This is a paragraph
         </p>
       </main>
-    </>
+    </Layout>
   )
 }

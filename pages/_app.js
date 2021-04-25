@@ -1,28 +1,23 @@
 import '../styles/globals.css'
-import Nav from '../components/Nav'
+import App, { Container } from 'next/app'
+import React from 'react'
+import withApolloClient from '../lib/with-apollo-client'
+import { ApolloProvider } from '@apollo/client'
+import { UserProvider } from '@auth0/nextjs-auth0'
 
-// import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import { UserProvider } from '@auth0/nextjs-auth0';
-
-
-const client = new ApolloClient({
-  uri: `https://${process.env.NEXT_PUBLIC_API_HOST}`,
-  cache: new InMemoryCache()
-});
-
-
-
-
-function MyApp({ Component, pageProps }) {
+class MyApp extends App {
+render () {
+  const { Component, pageProps, apolloClient } = this.props
   return (
-    <ApolloProvider client={client}>
-      <UserProvider>
-        <Nav />
-        <Component {...pageProps} />
-      </UserProvider>
-    </ApolloProvider>
+    <Container>
+      <ApolloProvider client={apolloClient}>
+        <UserProvider>
+          <Component {...pageProps} />
+        </UserProvider>
+      </ApolloProvider>
+    </Container>
   )
 }
+}
 
-export default MyApp
+export default withApolloClient(MyApp)

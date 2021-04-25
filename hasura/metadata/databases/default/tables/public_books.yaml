@@ -1,0 +1,13 @@
+table:
+  name: books
+  schema: public
+select_permissions:
+- permission:
+    columns:
+    - id
+    - isbn
+    - isbn13
+    - release_date
+    - title
+    filter: {}
+  role: everyone

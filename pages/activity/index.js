@@ -1,26 +1,16 @@
-import { gql, useQuery } from '@apollo/client';
 import Head from 'next/head'
 import Layout from '@components/Layout'
 
-const query = gql`
-query GetBooks {
-  books {
-    id
-    title
-  }
-}
-`
-
-export default function Books() {
+export default function Activity() {
   return (
     <Layout>
       <Head>
-        <title>Books</title>
+        <title>Activity</title>
       </Head>
 
       <main className="container mx-auto">
         <h1>
-          Books
+        Activity
         </h1>
 
         <p>

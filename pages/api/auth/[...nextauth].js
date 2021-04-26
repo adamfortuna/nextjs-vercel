@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import Providers from "next-auth/providers"
+import jwt from "jsonwebtoken";
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -35,7 +36,20 @@ export default NextAuth({
   // Notes:
   // * You must install an appropriate node_module for your database
   // * The Email provider requires a database (OAuth providers do not)
-  database: process.env.DATABASE_URL,
+  database: {
+    type: process.env.DATABASE_TYPE,
+    host: process.env.DATABASE_HOST,
+    port: process.env.DATABASE_PORT,
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_NAME,
+    ssl: true,
+    extra: {
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    },
+  },
 
   // The secret should be set to a reasonably long random string.
   // It is used to sign cookies and to sign and encrypt JSON Web Tokens, unless
@@ -61,14 +75,28 @@ export default NextAuth({
   // option is set - or by default if no database is specified.
   // https://next-auth.js.org/configuration/options#jwt
   jwt: {
-    // A secret to use for key generation (you should set this explicitly)
-    // secret: 'INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw',
-    // Set to true to use encryption (default: false)
-    // encryption: true,
-    // You can define your own encode/decode functions for signing and encryption
-    // if you want to override the default behaviour.
-    // encode: async ({ secret, token, maxAge }) => {},
-    // decode: async ({ secret, token, maxAge }) => {},
+    secret: process.env.SECRET,
+    encode: async ({ secret, token, maxAge }) => {
+      const jwtClaims = {
+        "sub": token.sub.toString() ,
+        "name": token.name ,
+        "email": token.email,
+        "iat": Date.now() / 1000,
+        "exp": Math.floor(Date.now() / 1000) + (24*60*60),
+        "https://hasura.io/jwt/claims": {
+          "x-hasura-allowed-roles": ["user"],
+          "x-hasura-default-role": "user",
+          "x-hasura-role": "user",
+          "x-hasura-user-id": token.id,
+        }
+      };
+      const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'HS256'});
+      return encodedToken;
+    },
+    decode: async ({ secret, token, maxAge }) => {
+      const decodedToken = jwt.verify(token, secret, { algorithms: ['HS256']});
+      return decodedToken;
+    }
   },
 
   // You can define custom pages to override the built-in ones. These will be regular Next.js pages
@@ -92,6 +120,21 @@ export default NextAuth({
     // async redirect(url, baseUrl) { return baseUrl },
     // async session(session, user) { return session },
     // async jwt(token, user, account, profile, isNewUser) { return token }
+    async session(session, token) { 
+      const encodedToken = jwt.sign(token, process.env.SECRET, { algorithm: 'HS256'});
+      session.id = token.id;
+      session.token = encodedToken;
+      return Promise.resolve(session);
+    },
+    async jwt(token, user, account, profile, isNewUser) { 
+      const isUserSignedIn = user ? true : false;
+      // make a http call to our graphql api
+      // store this in postgres
+      if(isUserSignedIn) {
+        token.id = user.id.toString();
+      }
+      return Promise.resolve(token);
+    }
   },
 
   // Events are useful for logging

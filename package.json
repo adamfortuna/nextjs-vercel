@@ -18,6 +18,8 @@
     "graphql": "^15.5.0",
     "isomorphic-unfetch": "^3.1.0",
     "next": "10.x",
+    "next-auth": "^3.17.2",
+    "pg": "^8.6.0",
     "react": "17.x",
     "react-dom": "17.x",
     "xstate": "^4.18.0"

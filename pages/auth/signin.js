@@ -1,16 +1,21 @@
-import { getProviders, signIn } from 'next-auth/client'
+import { getCsrfToken, getProviders, signIn } from 'next-auth/client'
+import Link from 'next/link'
 
-export default function SignIn({ providers }) {
+export default function SignIn({ providers, csrfToken }) {
   return (
     <div className="min-h-screen bg-white flex">
       <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div>
-            <img
-              className="h-12 w-auto"
-              src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-              alt="Workflow"
-            />
+            <Link href='/'>
+              <a>
+                <img
+                  className="h-12 w-auto"
+                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                  alt="Workflow"
+                />
+              </a>
+            </Link>
             <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Jump Right In!</h2>
           </div>
 
@@ -58,13 +63,14 @@ export default function SignIn({ providers }) {
                   <div className="w-full border-t border-gray-300" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                  <span className="px-2 bg-white text-gray-500">Or continue with email</span>
                 </div>
               </div>
             </div>
 
             <div className="mt-6">
-              <form action="#" method="POST" className="space-y-6">
+              <form action="/api/auth/signin/email" method="POST" className="space-y-6">
+                <input name='csrfToken' type='hidden' defaultValue={csrfToken}/>
                 <div>
                   <h3 className="text-lg text-gray-700 max-w font-semibold">No Passwords Here</h3>
                   <p className="text-sm text-gray-600 max-w">
@@ -121,7 +127,9 @@ export default function SignIn({ providers }) {
 // This is the recommended way for Next.js 9.3 or newer
 export async function getServerSideProps(context){
   const providers = await getProviders()
+  const csrfToken = await getCsrfToken(context)
+
   return {
-    props: { providers }
+    props: { providers, csrfToken }
   }
 }

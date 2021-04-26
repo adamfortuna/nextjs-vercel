@@ -9,15 +9,22 @@ export default NextAuth({
   providers: [
     
     Providers.Email({
-      server: process.env.EMAIL_SERVER,
-      from: process.env.EMAIL_FROM,
+      server: {
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT),
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASSWORD
+        },
+      },
+      from: process.env.SMTP_FROM
     }),
     Providers.Apple({
       clientId: process.env.APPLE_ID,
       clientSecret: { 
         teamId: process.env.APPLE_TEAM_ID,
         privateKey: process.env.APPLE_PRIVATE_KEY,
-        keyId: process.env.APPLE_KEY_ID,
+        keyId: process.env.APPLE_KEY_ID
       }
     }),
     Providers.Google({
@@ -77,6 +84,7 @@ export default NextAuth({
   jwt: {
     secret: process.env.SECRET,
     encode: async ({ secret, token, maxAge }) => {
+      console.log('next-auth: encode', secret, token, maxAge)
       const jwtClaims = {
         "sub": token.sub.toString() ,
         "name": token.name ,
@@ -94,6 +102,7 @@ export default NextAuth({
       return encodedToken;
     },
     decode: async ({ secret, token, maxAge }) => {
+      console.log('next-auth: decode', secret, token, maxAge)
       const decodedToken = jwt.verify(token, secret, { algorithms: ['HS256']});
       return decodedToken;
     }
@@ -121,12 +130,14 @@ export default NextAuth({
     // async session(session, user) { return session },
     // async jwt(token, user, account, profile, isNewUser) { return token }
     async session(session, token) { 
+      console.log('next-auth: callbacks', session, token)
       const encodedToken = jwt.sign(token, process.env.SECRET, { algorithm: 'HS256'});
       session.id = token.id;
       session.token = encodedToken;
       return Promise.resolve(session);
     },
     async jwt(token, user, account, profile, isNewUser) { 
+      console.log('next-auth: jwt', token, user, account, profile, isNewUser)
       const isUserSignedIn = user ? true : false;
       // make a http call to our graphql api
       // store this in postgres

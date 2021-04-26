@@ -1,3 +1,43 @@
 table:
   name: users
   schema: public
+select_permissions:
+- permission:
+    columns:
+    - id
+    - image
+    - name
+    - username
+    filter: {}
+    limit: 100
+  role: everyone
+- permission:
+    columns:
+    - created_at
+    - email
+    - id
+    - image
+    - name
+    - username
+    filter:
+      id:
+        _eq: X-hasura-user-id
+    limit: 100
+  role: user
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - image
+    - name
+    - username
+    filter:
+      id:
+        _eq: X-hasura-user-id
+  role: user
+delete_permissions:
+- permission:
+    filter:
+      id:
+        _eq: X-hasura-user-id
+  role: user

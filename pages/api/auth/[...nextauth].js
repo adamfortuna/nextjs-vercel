@@ -89,13 +89,15 @@ export default NextAuth({
         "sub": token.sub.toString() ,
         "name": token.name ,
         "email": token.email,
-        "iat": Date.now() / 1000,
+        "picture": token.picture,
+        "username": token.username,
+        "iat": Math.floor(Date.now() / 1000),
         "exp": Math.floor(Date.now() / 1000) + (24*60*60),
         "https://hasura.io/jwt/claims": {
           "x-hasura-allowed-roles": ["user"],
           "x-hasura-default-role": "user",
           "x-hasura-role": "user",
-          "x-hasura-user-id": token.id,
+          "X-hasura-user-id": token.id,
         }
       };
       const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'HS256'});
@@ -143,6 +145,8 @@ export default NextAuth({
       // store this in postgres
       if(isUserSignedIn) {
         token.id = user.id.toString();
+        token.picture = user.image;
+        token.username = user.username;
       }
       return Promise.resolve(token);
     }

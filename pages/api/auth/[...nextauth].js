@@ -88,7 +88,7 @@ export default NextAuth({
   jwt: {
     secret: process.env.SECRET,
     encode: async ({ secret, token, maxAge }) => {
-      console.log('next-auth: encode', 'secret', secret, 'token', token, maxAge, 'maxAge')
+      // console.log('next-auth: encode', 'secret', secret, 'token', token, maxAge, 'maxAge')
       const jwtClaims = {
         "id": token.id,
         "sub": token.sub.toString() ,
@@ -109,7 +109,7 @@ export default NextAuth({
       return encodedToken;
     },
     decode: async ({ secret, token, maxAge }) => {
-      console.log('next-auth: decode', 'secret', secret, 'token', token, 'maxAge', maxAge)
+      // console.log('next-auth: decode', 'secret', secret, 'token', token, 'maxAge', maxAge)
       const decodedToken = jwt.verify(token, secret, { algorithms: ['HS256']});
       return decodedToken;
     }
@@ -137,14 +137,14 @@ export default NextAuth({
     // async session(session, user) { return session },
     // async jwt(token, user, account, profile, isNewUser) { return token }
     async session(session, token) { 
-      console.log('next-auth: session', 'session', session, 'token', token)
+      // console.log('next-auth: session', 'session', session, 'token', token)
       const encodedToken = jwt.sign(token, process.env.SECRET, { algorithm: 'HS256'});
       session.id = token.id;
       session.token = encodedToken;
       return Promise.resolve(session);
     },
     async jwt(token, user, account, profile, isNewUser) { 
-      console.log('next-auth: jwt', 'token', token, 'user', user, 'account', account, 'profile', profile, 'isNewUser', isNewUser)
+      // console.log('next-auth: jwt', 'token', token, 'user', user, 'account', account, 'profile', profile, 'isNewUser', isNewUser)
       const isUserSignedIn = user ? true : false;
       
       if(isUserSignedIn) {
@@ -165,13 +165,13 @@ export default NextAuth({
   // Enable debug messages in the console if you are having problems
   logger: {
     error(code, ...message) {
-      console.error(code, message)
+      // console.error(code, message)
     },
     warn(code, ...message) {
-      console.warn(code, message)
+      // console.warn(code, message)
     },
     debug(code, ...message) {
-      console.debug(code, message)
+      // console.debug(code, message)
     }
   }
 })

@@ -12,6 +12,34 @@ query GetBooks {
 `
 
 export default function Books() {
+  const { data, loading, error } = useQuery(query);
+
+  return (
+    <Layout>
+      <h2>Bypass...</h2>
+    </Layout>
+  )
+
+
+  if (loading) {
+    return (
+      <Layout>
+        <h2>Loading...</h2>
+      </Layout>
+    )
+  }
+
+  if (error) {
+    return (
+      <Layout>
+        <h2>Error...</h2>
+        <p>{error}</p>
+      </Layout>
+    )
+  }
+
+  const books = data.books || []
+
   return (
     <Layout>
       <Head>
@@ -23,36 +51,14 @@ export default function Books() {
           Books
         </h1>
 
-        <p>
-          This is a paragraph
-        </p>
+        <p>This is the books page with {books.length} books.</p>
+
+        {books.map((books) => (
+          <div key={book.id}>
+            <h3>{book.title}</h3>
+         </div>
+        ))}
       </main>
     </Layout>
   )
-
-  // const { data, loading, error } = useQuery(query);
-
-  // if (loading) {
-  //   return <h2>Loading...</h2>;
-  // }
-
-  // if (error) {
-  //   console.error(error);
-  //   return null;
-  // }
-
-  // const books = data.books || []
-
-  // return (
-  //   <Layout>
-  //     <p>This is the books page with {books.length} books.</p>
-
-  //     {books.map((books) => (
-  //       <div key={book.id}>
-  //         <h3>{book.title}</h3>
-  //       </div>
-  //     ))}
-
-  //   </Layout>
-  // );
 }

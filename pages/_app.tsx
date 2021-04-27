@@ -3,6 +3,7 @@ import App from 'next/app'
 import { Provider } from 'next-auth/client'
 
 class MyApp extends App {
+
   render () {
     const { Component, pageProps } = this.props
     return (

@@ -3,12 +3,15 @@ import { Fragment } from 'react'
 import { BellIcon } from '@heroicons/react/outline'
 import { Menu, Transition } from '@headlessui/react'
 import { signOut } from 'next-auth/client'
+import { url } from 'gravatar'
 
 function classNames(...classes:any) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function UserNavLarge() {
+export default function UserNavLarge({ user }) {
+  let avatarUrl = user.picture || url(user.email, {r: 'pg', s: '256'})
+  let profileUrl = `/profiles/${user.username ? user.username : user.id}`
   return (
     <div className="hidden lg:block lg:ml-4">
       <div className="flex items-center">
@@ -24,11 +27,7 @@ export default function UserNavLarge() {
               <div>
                 <Menu.Button className="bg-gray-800 rounded-full flex text-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                   <span className="sr-only">Open user menu</span>
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
+                  <img className="h-8 w-8 rounded-full" src={avatarUrl} alt="" />
                 </Menu.Button>
               </div>
               <Transition
@@ -47,7 +46,7 @@ export default function UserNavLarge() {
                 >
                   <Menu.Item>
                     {({ active }) => (
-                      <Link href="/profiles/adamfortuna">
+                      <Link href={profileUrl}>
                         <a className={classNames(active ? 'bg-gray-100' : 'hover:bg-gray-100', 'block px-4 py-2 text-sm text-gray-700' )}>
                           Your Profile
                         </a>
@@ -65,9 +64,9 @@ export default function UserNavLarge() {
                   </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
-                      <a href='/logout' className={classNames(active ? 'bg-gray-100' : 'hover:bg-gray-100', 'block px-4 py-2 text-sm text-gray-700' )} onClick={() => signOut()}>
-                        Sign out
-                      </a>
+                      <Link href='/api/auth/logout'>
+                        <a href='#' className={classNames(active ? 'bg-gray-100' : 'hover:bg-gray-100', 'block px-4 py-2 text-sm text-gray-700' )} onClick={() => signOut()}>Sign out</a>
+                      </Link>
                     )}
                   </Menu.Item>
                 </Menu.Items>

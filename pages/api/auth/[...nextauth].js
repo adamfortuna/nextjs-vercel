@@ -7,6 +7,10 @@ import jwt from "jsonwebtoken";
 export default NextAuth({
   // https://next-auth.js.org/configuration/providers
   providers: [
+    Providers.GitHub({
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET
+    }),
     
     Providers.Email({
       server: {
@@ -84,8 +88,9 @@ export default NextAuth({
   jwt: {
     secret: process.env.SECRET,
     encode: async ({ secret, token, maxAge }) => {
-      console.log('next-auth: encode', secret, token, maxAge)
+      console.log('next-auth: encode', 'secret', secret, 'token', token, maxAge, 'maxAge')
       const jwtClaims = {
+        "id": token.id,
         "sub": token.sub.toString() ,
         "name": token.name ,
         "email": token.email,
@@ -97,14 +102,14 @@ export default NextAuth({
           "x-hasura-allowed-roles": ["user"],
           "x-hasura-default-role": "user",
           "x-hasura-role": "user",
-          "X-hasura-user-id": token.id,
+          "X-hasura-user-id": token.id
         }
       };
       const encodedToken = jwt.sign(jwtClaims, secret, { algorithm: 'HS256'});
       return encodedToken;
     },
     decode: async ({ secret, token, maxAge }) => {
-      console.log('next-auth: decode', secret, token, maxAge)
+      console.log('next-auth: decode', 'secret', secret, 'token', token, 'maxAge', maxAge)
       const decodedToken = jwt.verify(token, secret, { algorithms: ['HS256']});
       return decodedToken;
     }
@@ -132,21 +137,22 @@ export default NextAuth({
     // async session(session, user) { return session },
     // async jwt(token, user, account, profile, isNewUser) { return token }
     async session(session, token) { 
-      console.log('next-auth: callbacks', session, token)
+      console.log('next-auth: session', 'session', session, 'token', token)
       const encodedToken = jwt.sign(token, process.env.SECRET, { algorithm: 'HS256'});
       session.id = token.id;
       session.token = encodedToken;
       return Promise.resolve(session);
     },
     async jwt(token, user, account, profile, isNewUser) { 
-      console.log('next-auth: jwt', token, user, account, profile, isNewUser)
+      console.log('next-auth: jwt', 'token', token, 'user', user, 'account', account, 'profile', profile, 'isNewUser', isNewUser)
       const isUserSignedIn = user ? true : false;
-      // make a http call to our graphql api
-      // store this in postgres
+      
       if(isUserSignedIn) {
+        // Todo:
+        // Lookup user by user.id to get their username
         token.id = user.id.toString();
         token.picture = user.image;
-        token.username = user.username;
+        // token.username = lookupUser.user.username;
       }
       return Promise.resolve(token);
     }
@@ -157,5 +163,15 @@ export default NextAuth({
   events: {},
 
   // Enable debug messages in the console if you are having problems
-  debug: false,
+  logger: {
+    error(code, ...message) {
+      console.error(code, message)
+    },
+    warn(code, ...message) {
+      console.warn(code, message)
+    },
+    debug(code, ...message) {
+      console.debug(code, message)
+    }
+  }
 })

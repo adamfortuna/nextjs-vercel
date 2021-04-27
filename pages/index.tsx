@@ -31,9 +31,7 @@ export default function Home() {
           This is an H1
         </h1>
 
-        <p>
-          {message}
-        </p>
+        {message}
       </main>
     </Layout>
   )

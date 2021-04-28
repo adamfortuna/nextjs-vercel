@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Fragment } from 'react'
-import { BellIcon } from '@heroicons/react/outline'
+import { BellIcon, CloudUploadIcon, IdentificationIcon, CogIcon } from '@heroicons/react/outline'
 import { Menu, Transition } from '@headlessui/react'
 import { signOut } from 'next-auth/client'
 import { url } from 'gravatar'
@@ -42,33 +42,49 @@ export default function UserNavLarge({ user }) {
               >
                 <Menu.Items
                   static
-                  className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none divide-y divide-gray-100"
                 >
-                  <Menu.Item>
-                    {({ active }) => (
-                      <Link href={profileUrl}>
-                        <a className={classNames(active ? 'bg-gray-100' : 'hover:bg-gray-100', 'block px-4 py-2 text-sm text-gray-700' )}>
-                          Your Profile
-                        </a>
-                      </Link>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <Link href="/account">
-                        <a className={classNames(active ? 'bg-gray-100' : 'hover:bg-gray-100', 'block px-4 py-2 text-sm text-gray-700' )}>
-                          Settings
-                        </a>
-                      </Link>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <Link href='/api/auth/logout'>
-                        <a href='#' className={classNames(active ? 'bg-gray-100' : 'hover:bg-gray-100', 'block px-4 py-2 text-sm text-gray-700' )} onClick={() => signOut()}>Sign out</a>
-                      </Link>
-                    )}
-                  </Menu.Item>
+                  <div className="px-1 py-1">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link href={profileUrl}>
+                          <a className={classNames(active ? 'bg-purple-200' : 'hover:bg-purple-200', 'rounded flex items-center px-4 py-2 text-sm text-gray-700' )}>
+                            <IdentificationIcon className="h-6 w-6 text-purple-500 mr-2" aria-hidden="true" />
+                            Your Profile
+                          </a>
+                        </Link>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link href="/account">
+                          <a className={classNames(active ? 'bg-purple-200' : 'hover:bg-purple-200', 'rounded flex items-center px-4 py-2 text-sm text-gray-700' )}>
+                            <CogIcon className="h-6 w-6 text-purple-500 mr-2" aria-hidden="true" />
+                            Settings
+                          </a>
+                        </Link>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link href="/import">
+                          <a className={classNames(active ? 'bg-purple-200' : 'hover:bg-purple-200', 'rounded flex items-center px-4 py-2 text-sm text-gray-700' )}>
+                            <CloudUploadIcon className="h-6 w-6 text-purple-500 mr-2" aria-hidden="true" />
+                            Import Books
+                          </a>
+                        </Link>
+                      )}
+                    </Menu.Item>
+                  </div>
+                  <div className="px-1 py-1">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link href='/api/auth/logout'>
+                          <a href='#' className={classNames(active ? 'bg-purple-200' : 'hover:bg-purple-200', 'rounded flex items-center px-4 py-2 text-sm text-gray-700' )} onClick={() => signOut()}>Sign out</a>
+                        </Link>
+                      )}
+                    </Menu.Item>
+                  </div>
                 </Menu.Items>
               </Transition>
             </>

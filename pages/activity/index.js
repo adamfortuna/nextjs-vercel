@@ -1,6 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
 import Head from 'next/head'
-import Layout from '@components/Layout'
 
 const query = gql`
 query GetBooks {
@@ -17,18 +16,18 @@ function Activity() {
   
   if (loading) {
     return (
-      <Layout>
+      <>
         <h2>Bypass...</h2>
-      </Layout>
+      </>
     )
   }
 
   if (error) {
     return (
-      <Layout>
+      <>
         <h2>Error...</h2>
         <p>{error}</p>
-      </Layout>
+      </>
     )
   }
 
@@ -37,7 +36,7 @@ function Activity() {
   const books = data.books || []
 
   return (
-    <Layout>
+    <>
       <Head>
         <title>Activity</title>
       </Head>
@@ -55,7 +54,7 @@ function Activity() {
          </div>
         ))}
       </main>
-    </Layout>
+    </>
   )
 }
 

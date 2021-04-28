@@ -3,6 +3,7 @@ import App from 'next/app'
 import { Provider } from 'next-auth/client'
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from "@lib/apollo"
+import Layout from "@components/Layout"
 
 class MyApp extends App {
   render () {
@@ -12,7 +13,9 @@ class MyApp extends App {
     return (
       <Provider session={pageProps.session}>
         <ApolloProvider client={apolloClient}>
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </ApolloProvider>
       </Provider>
     )

@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Layout from '@components/Layout'
 import { useSession, signIn, signOut } from 'next-auth/client'
 
 
@@ -21,7 +20,7 @@ export default function Home() {
   }
 
   return (
-    <Layout>
+    <>
       <Head>
         <title>Home Page</title>
       </Head>
@@ -33,6 +32,6 @@ export default function Home() {
 
         {message}
       </main>
-    </Layout>
+    </>
   )
 }

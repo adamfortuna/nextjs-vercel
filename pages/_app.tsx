@@ -7,7 +7,6 @@ import { useApollo } from "@lib/apollo"
 class MyApp extends App {
   render () {
     const { Component, pageProps } = this.props
-
     const apolloClient = useApollo(pageProps.initialApolloState)
 
     return (

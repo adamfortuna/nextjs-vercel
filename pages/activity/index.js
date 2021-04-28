@@ -1,7 +1,41 @@
+import { gql, useQuery } from '@apollo/client';
 import Head from 'next/head'
 import Layout from '@components/Layout'
 
-export default function Activity() {
+const query = gql`
+query GetBooks {
+  books {
+    id
+    title
+  }
+}
+`
+
+function Activity() {
+
+  const { data, loading, error } = useQuery(query);
+  
+  if (loading) {
+    return (
+      <Layout>
+        <h2>Bypass...</h2>
+      </Layout>
+    )
+  }
+
+  if (error) {
+    return (
+      <Layout>
+        <h2>Error...</h2>
+        <p>{error}</p>
+      </Layout>
+    )
+  }
+
+  console.log('data', data)
+
+  const books = data.books || []
+
   return (
     <Layout>
       <Head>
@@ -10,39 +44,19 @@ export default function Activity() {
 
       <main className="container mx-auto">
         <h1>
-        Activity
+          Activity
         </h1>
 
-        <p>
-          This is a paragraph
-        </p>
+        <p>This is the books page with {books.length} books.</p>
+
+        {books.map((book) => (
+          <div key={book.id}>
+            <h3>{book.title}</h3>
+         </div>
+        ))}
       </main>
     </Layout>
   )
-
-  // const { data, loading, error } = useQuery(query);
-
-  // if (loading) {
-  //   return <h2>Loading...</h2>;
-  // }
-
-  // if (error) {
-  //   console.error(error);
-  //   return null;
-  // }
-
-  // const books = data.books || []
-
-  // return (
-  //   <Layout>
-  //     <p>This is the books page with {books.length} books.</p>
-
-  //     {books.map((books) => (
-  //       <div key={book.id}>
-  //         <h3>{book.title}</h3>
-  //       </div>
-  //     ))}
-
-  //   </Layout>
-  // );
 }
+
+export default Activity

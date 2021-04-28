@@ -1,6 +1,7 @@
 import Head from 'next/head'
+import { getLayout } from "@components/layouts/SingleColContainerLayout"
 
-export default function Lists() {
+const ListsIndex = () => {
   return (
     <>
       <Head>
@@ -19,3 +20,8 @@ export default function Lists() {
     </>
   )
 }
+
+
+ListsIndex.getLayout = getLayout
+
+export default ListsIndex

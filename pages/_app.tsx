@@ -3,19 +3,20 @@ import App from 'next/app'
 import { Provider } from 'next-auth/client'
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from "@lib/apollo"
-import Layout from "@components/Layout"
+import SiteLayout from "@components/layouts/SiteLayout"
 
 class MyApp extends App {
   render () {
     const { Component, pageProps } = this.props
     const apolloClient = useApollo(pageProps.initialApolloState)
 
-    return (
+    // Site Layout based on https://adamwathan.me/2019/10/17/persistent-layout-patterns-in-nextjs/
+    const getLayout = Component.getLayout || ((page:any) => <SiteLayout children={page}></SiteLayout>)
+
+    return getLayout( 
       <Provider session={pageProps.session}>
         <ApolloProvider client={apolloClient}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <Component {...pageProps} />
         </ApolloProvider>
       </Provider>
     )

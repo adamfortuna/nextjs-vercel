@@ -1,5 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
 import Head from 'next/head'
+import { getLayout } from "@components/layouts/SingleColContainerLayout"
 
 const query = gql`
 query GetBooks {
@@ -9,8 +10,7 @@ query GetBooks {
   }
 }
 `
-
-function Activity() {
+const ActivityIndex = () => {
 
   const { data, loading, error } = useQuery(query);
   
@@ -58,4 +58,6 @@ function Activity() {
   )
 }
 
-export default Activity
+ActivityIndex.getLayout = getLayout
+
+export default ActivityIndex

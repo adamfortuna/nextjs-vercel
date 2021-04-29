@@ -55,7 +55,7 @@ const BooksIndex = () => {
 
         <p>This is the books page with {books.length} books.</p>
 
-        {books.map((book) => (
+        {books.map((book:any) => (
           <div key={book.id}>
             <h3>{book.title} [{book.isbn}]</h3>
          </div>

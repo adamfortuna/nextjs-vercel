@@ -4,6 +4,7 @@ import { BellIcon, CloudUploadIcon, IdentificationIcon, CogIcon } from '@heroico
 import { Menu, Transition } from '@headlessui/react'
 import { signOut } from 'next-auth/client'
 import { url } from 'gravatar'
+import ThemeChanger from '@components/nav/ThemeChanger'
 
 function classNames(...classes:any) {
   return classes.filter(Boolean).join(' ')
@@ -15,6 +16,8 @@ export default function UserNavLarge({ user }:any) {
   return (
     <div className="hidden lg:block lg:ml-4">
       <div className="flex items-center">
+        <ThemeChanger></ThemeChanger>
+
         <button className="flex-shrink-0 dark:bg-gray-800 p-1 rounded-full text-gray-400 hover:text-gray-800 dark:hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
           <span className="sr-only">View notifications</span>
           <BellIcon className="h-6 w-6" aria-hidden="true" />

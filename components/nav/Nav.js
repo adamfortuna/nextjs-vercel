@@ -8,7 +8,6 @@ import { useSession } from 'next-auth/client'
 import UserNavLarge from '@components/nav/UserNavLarge'
 import UserNavSmall from '@components/nav/UserNavSmall'
 import UserNavLogin from '@components/nav/UserNavLogin'
-import ThemeChanger from '@components/nav/ThemeChanger'
 import NavSearch from '@components/nav/NavSearch'
 
 export default function Nav() {
@@ -52,9 +51,8 @@ export default function Nav() {
                   </div>
                 </div>
               </div>
-              <div className="flex-1 flex justify-center px-2 lg:ml-6 lg:justify-end">
+              <div className="flex-1 flex justify-center items-center px-2 lg:ml-6 lg:justify-end">
                 <NavSearch></NavSearch>
-                <ThemeChanger></ThemeChanger>
               </div>
               <div className="flex lg:hidden">
                 {/* Mobile menu button */}

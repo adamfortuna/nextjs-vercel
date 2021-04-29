@@ -2,7 +2,7 @@ import ActiveLink from '@components/ActiveLink'
 import { BellIcon } from '@heroicons/react/outline'
 import { signOut } from 'next-auth/client'
 
-export default function UserNavSmall() {
+export default function UserNavSmall({ user }:any) {
   return (
     <div className="pt-4 pb-3 border-t border-gray-700">
       <div className="flex items-center px-5">

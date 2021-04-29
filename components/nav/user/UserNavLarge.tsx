@@ -80,13 +80,11 @@ export default function UserNavLarge({ user }:any) {
                     </Link>
                   </div>
                   <div className="px-1 py-1">
-                    <Link href='/api/auth/logout' passHref>
-                      <Menu.Item>
-                        {({ active }) => (
-                            <a href='#' className={classNames(active ? 'bg-purple-200' : 'hover:bg-purple-200', 'rounded flex items-center px-4 py-2 text-sm text-gray-700' )} onClick={() => signOut()}>Sign out</a>
-                            )}
-                      </Menu.Item>
-                    </Link>
+                    <Menu.Item>
+                      {({ active }) => (
+                          <a href='/api/auth/logout' className={classNames(active ? 'bg-purple-200' : 'hover:bg-purple-200', 'rounded flex items-center px-4 py-2 text-sm text-gray-700' )} onClick={(e) => { e.preventDefault(); signOut() }}>Sign out</a>
+                          )}
+                    </Menu.Item>
                   </div>
                 </Menu.Items>
               </Transition>

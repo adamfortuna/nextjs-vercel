@@ -1,9 +1,9 @@
 import DefaultLayout from "./default";
-// import AdminLayout from "./admin";
+import NoneLayout from "./none";
 
 const layouts = {
   default: DefaultLayout,
-  // admin: AdminLayout
+  none: NoneLayout
 };
 
 const LayoutWrapper = (props) => {

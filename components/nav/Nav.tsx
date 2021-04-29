@@ -5,15 +5,15 @@ import { Disclosure } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import { useSession } from 'next-auth/client'
 
-import UserNavLarge from '@components/nav/UserNavLarge'
-import UserNavSmall from '@components/nav/UserNavSmall'
-import UserNavLogin from '@components/nav/UserNavLogin'
+import UserNavLarge from '@components/nav/user/UserNavLarge'
+import UserNavSmall from '@components/nav/user/UserNavSmall'
+import UserNavLogin from '@components/nav/guest/UserNavLogin'
 import NavSearch from '@components/nav/NavSearch'
 
 export default function Nav() {
   const [ session, loading ] = useSession()
 
-  let userLarge, userSmall
+  let userLarge:any, userSmall:any
   if(session?.user) {
     userLarge = <UserNavLarge user={session.user}></UserNavLarge>
     userSmall = <UserNavSmall user={session.user}></UserNavSmall>

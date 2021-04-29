@@ -7,9 +7,14 @@ import { useState } from 'react'
 export default function LoginModal({open, setOpen}) {
   const [loaded, setLoaded] = useState(false)
 
+  const closeModal = (state) => {
+    setOpen(state)
+    setTimeout(()=> setLoaded(false), 1000)
+  }
+
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" static className="fixed z-10 inset-0 overflow-y-auto" open={open} onClose={setOpen}>
+      <Dialog as="div" static className="fixed z-10 inset-0 overflow-y-auto" open={open} onClose={closeModal}>
         <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           <Transition.Child
             as={Fragment}
@@ -36,13 +41,15 @@ export default function LoginModal({open, setOpen}) {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="inline-block align-bottom bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
-
+            <div className="inline-block align-bottom bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg px-4 py-5 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
               {!loaded ? (
-                <RefreshIcon className="animate-spin w-6 h-6" />
+                <div className="p-8 flex justify-center">
+                <RefreshIcon className="animate-spin w-12 h-12 place-self-center" />
+              </div>
               ) : null}
 
-              <iframe src="/auth/signin" onLoad={setLoaded} className="min-w-full h-64 overflow-hidden bg-white dark:bg-gray-800" style={{ "height": "450px", "opacity": (loaded ? "1" : "0")}}></iframe>
+              <iframe src="/auth/signin" onLoad={setLoaded} className="min-w-full h-64 overflow-hidden bg-white dark:bg-gray-800" style={{ "height": (loaded ? "440px" : "1px"), "opacity": (loaded ? "1" : "0") }}></iframe>
+
 
               <button></button>
             </div>

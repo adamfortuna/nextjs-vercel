@@ -45,45 +45,45 @@ export default function UserNavLarge({ user }:any) {
                   className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none divide-y divide-gray-100"
                 >
                   <div className="px-1 py-1">
-                    <Menu.Item>
-                      {({ active }) => (
-                        <Link href={profileUrl}>
-                          <a className={classNames(active ? 'bg-purple-200' : 'hover:bg-purple-200', 'rounded flex items-center px-4 py-2 text-sm text-gray-700' )}>
-                            <IdentificationIcon className="h-6 w-6 text-purple-500 mr-2" aria-hidden="true" />
-                            Your Profile
-                          </a>
-                        </Link>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <Link href="/account">
+                    <Link href={profileUrl} passHref>
+                      <Menu.Item>
+                        {({ active }) => (
+                            <a className={classNames(active ? 'bg-purple-200' : 'hover:bg-purple-200', 'rounded flex items-center px-4 py-2 text-sm text-gray-700' )}>
+                              <IdentificationIcon className="h-6 w-6 text-purple-500 mr-2" aria-hidden="true" />
+                              Your Profile
+                            </a>
+                        )}
+                      </Menu.Item>
+                    </Link>
+                    <Link href="/account" passHref>
+                      <Menu.Item>
+                        {({ active }) => (
                           <a className={classNames(active ? 'bg-purple-200' : 'hover:bg-purple-200', 'rounded flex items-center px-4 py-2 text-sm text-gray-700' )}>
                             <CogIcon className="h-6 w-6 text-purple-500 mr-2" aria-hidden="true" />
                             Settings
                           </a>
-                        </Link>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <Link href="/import">
-                          <a className={classNames(active ? 'bg-purple-200' : 'hover:bg-purple-200', 'rounded flex items-center px-4 py-2 text-sm text-gray-700' )}>
-                            <CloudUploadIcon className="h-6 w-6 text-purple-500 mr-2" aria-hidden="true" />
-                            Import Books
-                          </a>
-                        </Link>
-                      )}
-                    </Menu.Item>
+                        )}
+                      </Menu.Item>
+                    </Link>
+                    <Link href="/import" passHref>
+                      <Menu.Item>
+                        {({ active }) => (
+                            <a className={classNames(active ? 'bg-purple-200' : 'hover:bg-purple-200', 'rounded flex items-center px-4 py-2 text-sm text-gray-700' )}>
+                              <CloudUploadIcon className="h-6 w-6 text-purple-500 mr-2" aria-hidden="true" />
+                              Import Books
+                            </a>
+                        )}
+                      </Menu.Item>
+                    </Link>
                   </div>
                   <div className="px-1 py-1">
-                    <Menu.Item>
-                      {({ active }) => (
-                        <Link href='/api/auth/logout'>
-                          <a href='#' className={classNames(active ? 'bg-purple-200' : 'hover:bg-purple-200', 'rounded flex items-center px-4 py-2 text-sm text-gray-700' )} onClick={() => signOut()}>Sign out</a>
-                        </Link>
-                      )}
-                    </Menu.Item>
+                    <Link href='/api/auth/logout' passHref>
+                      <Menu.Item>
+                        {({ active }) => (
+                            <a href='#' className={classNames(active ? 'bg-purple-200' : 'hover:bg-purple-200', 'rounded flex items-center px-4 py-2 text-sm text-gray-700' )} onClick={() => signOut()}>Sign out</a>
+                            )}
+                      </Menu.Item>
+                    </Link>
                   </div>
                 </Menu.Items>
               </Transition>

@@ -17,7 +17,7 @@ const BooksIndex = () => {
   if (loading) {
     return (
       <>
-        <h2>Bypass...</h2>
+        <h2>Loading...</h2>
       </>
     )
   }

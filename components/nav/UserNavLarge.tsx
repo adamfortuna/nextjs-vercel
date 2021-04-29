@@ -9,7 +9,7 @@ function classNames(...classes:any) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function UserNavLarge({ user }) {
+export default function UserNavLarge({ user }:any) {
   let avatarUrl = user.picture || url(user.email, {r: 'pg', s: '256'})
   let profileUrl = `/profiles/${user.username ? user.username : user.id}`
   return (

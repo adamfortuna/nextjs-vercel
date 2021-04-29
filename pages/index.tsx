@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import { getLayout } from "@components/layouts/SingleColContainerLayout"
 
 const HomeIndex = () => {
   return (
@@ -14,7 +13,5 @@ const HomeIndex = () => {
     </>
   )
 }
-
-HomeIndex.getLayout = getLayout
 
 export default HomeIndex

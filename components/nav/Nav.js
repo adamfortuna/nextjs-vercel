@@ -9,13 +9,11 @@ import { useSession } from 'next-auth/client'
 import UserNavLarge from '@components/nav/UserNavLarge'
 import UserNavSmall from '@components/nav/UserNavSmall'
 import UserNavLogin from '@components/nav/UserNavLogin'
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
+import ThemeChanger from '@components/nav/ThemeChanger'
 
 export default function Nav() {
   const [ session, loading ] = useSession()
+
   let userLarge, userSmall
   if(session?.user) {
     userLarge = <UserNavLarge user={session.user}></UserNavLarge>
@@ -72,6 +70,7 @@ export default function Nav() {
                     />
                   </div>
                 </div>
+                <ThemeChanger></ThemeChanger>
               </div>
               <div className="flex lg:hidden">
                 {/* Mobile menu button */}

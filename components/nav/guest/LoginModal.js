@@ -4,7 +4,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { RefreshIcon } from '@heroicons/react/outline'
 import { useState } from 'react'
 
-export default function LoginModal({open, setOpen}:any) {
+export default function LoginModal({open, setOpen}) {
   const [loaded, setLoaded] = useState(false)
 
   return (

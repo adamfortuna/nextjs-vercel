@@ -8,7 +8,7 @@ export default function UserNavLogin() {
   return (
     <div className="hidden lg:block lg:ml-4 flex flex-row items-center">
       <ThemeChangerWrapper></ThemeChangerWrapper>
-      <a href='/auth/signin' className="ml-2 rounded hover:bg-indigo-700 hover:text-white p-2" onClick={(e) => { e.preventDefault(); setOpen(true) }}>
+      <a href='/auth/signin' className="ml-2 rounded bg-gray-300 hover:bg-indigo-700 hover:text-white dark:bg-gray-700 dark:hover:bg-indigo-700 dark:hover:text-white p-2" onClick={(e) => { e.preventDefault(); setOpen(true) }}>
         Login
       </a>
 

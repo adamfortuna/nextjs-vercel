@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/client'
 import UserNavLarge from '@components/nav/user/UserNavLarge'
 import UserNavSmall from '@components/nav/user/UserNavSmall'
 import UserNavLogin from '@components/nav/guest/UserNavLogin'
+import UserNavSmallLogin from '@components/nav/guest/UserNavSmallLogin'
 import NavSearch from '@components/nav/NavSearch'
 
 export default function Nav() {
@@ -19,7 +20,7 @@ export default function Nav() {
     userSmall = <UserNavSmall user={session.user}></UserNavSmall>
   } else {
     userLarge = <UserNavLogin></UserNavLogin>
-    userSmall = userLarge
+    userSmall = <UserNavSmallLogin></UserNavSmallLogin>
   }
 
   return (
@@ -72,13 +73,13 @@ export default function Nav() {
 
           <Disclosure.Panel className="lg:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <ActiveLink href="/activity" active="bg-gray-900 text-white" inactive="text-gray-300 hover:bg-gray-700 hover:text-white">
+              <ActiveLink href="/activity" active="bg-gray-900 text-white" inactive="text-gray-800 dark:text-gray-300 hover:bg-gray-700 hover:text-white">
                 <a className="text-white block px-3 py-2 rounded-md text-base font-medium">Activity</a>
               </ActiveLink>
-              <ActiveLink href="/books" active="bg-gray-900 text-white" inactive="text-gray-300 hover:bg-gray-700 hover:text-white">
+              <ActiveLink href="/books" active="bg-gray-900 text-white" inactive="text-gray-800 dark:text-gray-300 hover:bg-gray-700 hover:text-white">
                 <a className="text-white block px-3 py-2 rounded-md text-base font-medium">Books</a>
               </ActiveLink>
-              <ActiveLink href="/lists" active="bg-gray-900 text-white" inactive="text-gray-300 hover:bg-gray-700 hover:text-white">
+              <ActiveLink href="/lists" active="bg-gray-900 text-white" inactive="text-gray-800 dark:text-gray-300 hover:bg-gray-700 hover:text-white">
                 <a className="text-white block px-3 py-2 rounded-md text-base font-medium">Lists</a>
               </ActiveLink>
             </div>

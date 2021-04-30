@@ -82,7 +82,7 @@ function SignIn({ csrfToken }) {
               <label htmlFor="email" className="block text-sm font-medium">
                 Email address
               </label>
-              <div className="mt-1">
+              <div className="mt-1 mx-0.5">
                 <input
                   id="email"
                   name="email"

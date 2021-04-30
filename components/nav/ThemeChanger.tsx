@@ -2,13 +2,15 @@ import { useTheme } from 'next-themes'
 import { SunIcon, MoonIcon } from '@heroicons/react/solid'
 import { Switch } from '@headlessui/react'
 
-function classNames(...classes:any) {
+function classNames(...classes:String[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+export default function ThemeChanger() {
   const { theme, setTheme } = useTheme()
   let enabled = (theme === 'dark')
+
+  console.log('theme', theme)
   
   const changeTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light')
